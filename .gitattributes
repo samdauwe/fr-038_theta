@@ -1,0 +1,4 @@
+# GitHub language statistics: the *.inc fragments are C, and the stb headers are not ours
+*.inc linguist-language=C
+*.h linguist-language=C
+third_party/** linguist-vendored
