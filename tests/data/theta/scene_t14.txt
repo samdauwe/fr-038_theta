@@ -1,0 +1,17 @@
+t = 14.00 s, 4 outputs, 10 nodes
+node 0: Viewport size 3 flags 0x3 clear 0xff000000 ambient 0x00000000 fog 0xff000000 [16.0..4096.0] zoom 1.480 2.467 clip 0.12..4096.00
+  camera at 112.03 78.47 -150.00 looking -0.34 -0.28 0.90, 4 meshes, 1 effects, 1 lights
+  light 0: op 0 point color 0x78787878 amplify 1.00 range 32.0 at 112.03 78.47 -150.00 dir 0.00 0.00 1.00 flags 0x0
+  mesh 0: op 1008 (0x88 Transform) from op 1008 (Transform) at 112.03 78.47 -150.00
+  mesh 1: op 1049 (0x88 Transform) from op 1049 (Transform) at 0.00 0.00 150.00
+  mesh 2: op 1052 (0x88 Transform) from op 1052 (Transform) at 0.00 0.00 150.00
+  mesh 3: op 1071 (0x88 Transform) from op 1071 (Transform) at 0.00 -24.15 -48.69
+node 1: Color size 5 input 0 input2 -1 operation 0 color 0xff000000 amplify 0x00404040 radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 2: Color size 1 input 1 input2 -1 operation 4 color 0xff606060 amplify 0x00ffffff radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 3: Blur size 5 input 2 input2 -1 operation 1 color 0x00000000 amplify 0x00000000 radius 4.050 factor 1.000 stages 4 rt_op -1 select
+node 4: Merge size 4 input 1 input2 3 operation 1 color 0x80000000 amplify 0x00404040 radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 5: Layer2D input -1 material 1297 flags 0x30 size 4 z 0.000 screen 0.680 0.325 0.980 0.725 uv 0.000 0.000 1.000 1.000
+node 6: Layer2D input -1 material 1304 flags 0x30 size 4 z 0.000 screen 0.685 0.297 0.965 0.402 uv 0.000 0.000 1.000 1.000
+node 7: Select size 5 input -1 input2 -1 operation 0 color 0x00000000 amplify 0x00000000 radius 0.000 factor 0.000 stages 0 rt_op -1 select 5 6
+node 8: Layer2D input -1 material 1323 flags 0x0 size 4 z 0.000 screen 0.000 0.900 1.000 1.000 uv 0.000 0.000 1.000 1.000
+node 9: Layer2D input -1 material 1323 flags 0x0 size 4 z 0.000 screen 0.000 0.000 1.000 0.100 uv 0.000 0.000 1.000 1.000

@@ -1,0 +1,87 @@
+t = 210.00 s, 3 outputs, 7 nodes
+node 0: Viewport size 3 flags 0x3 clear 0xff000000 ambient 0x00000000 fog 0xff000000 [16.0..4096.0] zoom 0.680 1.133 clip 0.12..4096.00
+  camera at -31.87 -6.90 89.38 looking -0.90 0.04 -0.43, 279 meshes, 0 effects, 18 lights
+  light 0: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at 103.33 -4.51 0.00 dir 0.00 0.00 1.00 flags 0x2
+  light 1: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at 78.06 5.03 32.75 dir 0.00 0.00 1.00 flags 0x0
+  light 2: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at -55.03 -6.76 -55.03 dir 0.71 0.00 -0.71 flags 0x0
+  light 3: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at 50.93 -4.51 -89.90 dir 0.87 0.00 0.49 flags 0x2
+  light 4: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at 66.97 5.03 -51.78 dir 0.87 0.00 0.49 flags 0x0
+  light 5: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at -75.01 -6.76 20.76 dir -0.27 0.00 -0.96 flags 0x0
+  light 6: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at -53.12 -4.51 -88.63 dir 0.86 0.00 -0.51 flags 0x2
+  light 7: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at -12.04 5.03 -83.79 dir 0.86 0.00 -0.51 flags 0x0
+  light 8: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at -18.91 -6.76 75.50 dir -0.97 0.00 -0.24 flags 0x0
+  light 9: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at -103.30 -4.51 2.54 dir -0.02 0.00 -1.00 flags 0x2
+  light 10: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at -78.84 5.03 -30.82 dir -0.02 0.00 -1.00 flags 0x0
+  light 11: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at 56.37 -6.76 53.67 dir -0.69 0.00 0.72 flags 0x0
+  light 12: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at -48.71 -4.51 91.13 dir -0.88 0.00 -0.47 flags 0x2
+  light 13: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at -65.68 5.03 53.41 dir -0.88 0.00 -0.47 flags 0x0
+  light 14: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at 74.48 -6.76 -22.59 dir 0.29 0.00 0.96 flags 0x0
+  light 15: op 1225 point color 0x00ffffff amplify 0.69 range 37.9 at 55.28 -4.51 87.30 dir -0.84 0.00 0.53 flags 0x2
+  light 16: op 1226 point color 0x00ffffff amplify 0.57 range 43.7 at 14.09 5.03 83.47 dir -0.84 0.00 0.53 flags 0x0
+  light 17: op 1227 point color 0x00ff0000 amplify 1.00 range 20.0 at 17.05 -6.76 -75.94 dir 0.98 0.00 0.22 flags 0x0
+  mesh 0: op 1095 (0xb0 ShadowEnable) from op 1095 (ShadowEnable) at 0.00 0.00 0.00
+  mesh 1: op 1113 (0x88 Transform) from op 1113 (Transform) at -51.27 -7.75 80.64
+  mesh 2: op 1131 (0x88 Transform) from op 1131 (Transform) at -61.25 -8.60 80.28
+  mesh 3: op 1139 (0x88 Transform) from op 1139 (Transform) at -61.25 -12.10 80.28
+  mesh 4: op 1113 (0x88 Transform) from op 1113 (Transform) at -48.50 -7.75 76.47
+  mesh 5: op 1131 (0x88 Transform) from op 1131 (Transform) at -51.07 -8.79 62.82
+  mesh 6: op 1139 (0x88 Transform) from op 1139 (Transform) at -51.07 -12.29 62.82
+  mesh 7: op 1113 (0x88 Transform) from op 1113 (Transform) at -44.34 -7.75 79.24
+  mesh 8: op 1131 (0x88 Transform) from op 1131 (Transform) at -32.44 -8.78 81.12
+  mesh 9: op 1139 (0x88 Transform) from op 1139 (Transform) at -32.44 -12.28 81.12
+  mesh 10: op 1113 (0x88 Transform) from op 1113 (Transform) at -47.11 -7.75 83.41
+  mesh 11: op 1131 (0x88 Transform) from op 1131 (Transform) at -44.17 -8.76 96.57
+  mesh 12: op 1139 (0x88 Transform) from op 1139 (Transform) at -44.17 -12.26 96.57
+  mesh 13: op 1196 (0x88 Transform) from op 1196 (Transform) at -47.81 -7.75 79.94
+  mesh 14: op 1202 (0x96 MatLink) from op 1202 (MatLink) at -51.72 -7.75 77.34
+  mesh 15: op 1222 (0x88 Transform) from op 1222 (Transform) at -70.22 5.89 26.13
+  mesh 16: op 1222 (0x88 Transform) from op 1222 (Transform) at -70.30 -1.82 27.93
+  mesh 17: op 1222 (0x88 Transform) from op 1222 (Transform) at -68.67 1.29 30.87
+  mesh 18: op 1222 (0x88 Transform) from op 1222 (Transform) at -66.05 4.95 33.09
+  mesh 19: op 1222 (0x88 Transform) from op 1222 (Transform) at -65.30 -1.61 35.15
+  mesh 20: op 1222 (0x88 Transform) from op 1222 (Transform) at -63.16 2.20 37.42
+  mesh 21: op 1222 (0x88 Transform) from op 1222 (Transform) at -61.82 6.85 39.77
+  mesh 22: op 1222 (0x88 Transform) from op 1222 (Transform) at -59.74 7.01 41.19
+  mesh 23: op 1222 (0x88 Transform) from op 1222 (Transform) at -58.07 -5.23 44.89
+  mesh 24: op 1222 (0x88 Transform) from op 1222 (Transform) at -56.99 -6.10 46.28
+  mesh 25: op 1222 (0x88 Transform) from op 1222 (Transform) at -54.19 -5.14 48.67
+  mesh 26: op 1222 (0x88 Transform) from op 1222 (Transform) at -53.13 -7.50 50.88
+  mesh 27: op 1222 (0x88 Transform) from op 1222 (Transform) at -51.40 0.30 52.38
+  mesh 28: op 1222 (0x88 Transform) from op 1222 (Transform) at -48.66 0.59 55.20
+  mesh 29: op 1222 (0x88 Transform) from op 1222 (Transform) at -46.18 6.38 57.13
+  mesh 30: op 1222 (0x88 Transform) from op 1222 (Transform) at -45.16 -3.94 57.98
+  mesh 31: op 1222 (0x88 Transform) from op 1222 (Transform) at -43.54 1.56 59.38
+  mesh 32: op 1222 (0x88 Transform) from op 1222 (Transform) at -40.18 1.47 61.67
+  mesh 33: op 1222 (0x88 Transform) from op 1222 (Transform) at -38.05 -3.52 63.18
+  mesh 34: op 1222 (0x88 Transform) from op 1222 (Transform) at -36.28 4.76 64.36
+  mesh 35: op 1222 (0x88 Transform) from op 1222 (Transform) at -33.39 -2.15 65.87
+  mesh 36: op 1222 (0x88 Transform) from op 1222 (Transform) at -31.20 0.99 66.17
+  mesh 37: op 1222 (0x88 Transform) from op 1222 (Transform) at -27.30 3.97 66.36
+  mesh 38: op 1222 (0x88 Transform) from op 1222 (Transform) at -23.95 6.10 67.66
+  mesh 39: op 1222 (0x88 Transform) from op 1222 (Transform) at -19.92 -0.73 68.80
+  mesh 40: op 1222 (0x88 Transform) from op 1222 (Transform) at -17.80 -2.57 69.51
+  mesh 41: op 1222 (0x88 Transform) from op 1222 (Transform) at -14.81 4.35 68.68
+  mesh 42: op 1222 (0x88 Transform) from op 1222 (Transform) at -9.63 7.49 68.99
+  mesh 43: op 1222 (0x88 Transform) from op 1222 (Transform) at -7.29 -7.69 69.49
+  mesh 44: op 1222 (0x88 Transform) from op 1222 (Transform) at -4.25 -4.48 71.33
+  mesh 45: op 1222 (0x88 Transform) from op 1222 (Transform) at -1.35 2.45 71.22
+  mesh 46: op 1222 (0x88 Transform) from op 1222 (Transform) at 2.66 -5.50 70.90
+  mesh 47: op 1222 (0x88 Transform) from op 1222 (Transform) at 4.57 0.33 70.91
+  mesh 48: op 1222 (0x88 Transform) from op 1222 (Transform) at 7.44 -6.55 69.26
+  mesh 49: op 1222 (0x88 Transform) from op 1222 (Transform) at 9.80 2.38 68.83
+  mesh 50: op 1222 (0x88 Transform) from op 1222 (Transform) at 12.31 0.94 68.82
+  mesh 51: op 1222 (0x88 Transform) from op 1222 (Transform) at 15.56 6.91 67.71
+  mesh 52: op 1222 (0x88 Transform) from op 1222 (Transform) at 18.08 1.19 67.40
+  mesh 53: op 1222 (0x88 Transform) from op 1222 (Transform) at 21.25 -1.39 66.85
+  mesh 54: op 1222 (0x88 Transform) from op 1222 (Transform) at 22.88 7.74 65.66
+  mesh 55: op 1222 (0x88 Transform) from op 1222 (Transform) at 26.04 -2.50 65.09
+  mesh 56: op 1222 (0x88 Transform) from op 1222 (Transform) at 29.52 -5.55 63.09
+  mesh 57: op 1222 (0x88 Transform) from op 1222 (Transform) at 30.66 -7.49 62.35
+  mesh 58: op 1222 (0x88 Transform) from op 1222 (Transform) at 33.01 -2.10 60.68
+  mesh 59: op 1222 (0x88 Transform) from op 1222 (Transform) at 37.39 6.06 58.72
+node 1: Color size 5 input 0 input2 -1 operation 0 color 0xff000000 amplify 0x00404040 radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 2: Color size 1 input 1 input2 -1 operation 4 color 0xff606060 amplify 0x00ffffff radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 3: Blur size 5 input 2 input2 -1 operation 1 color 0x00000000 amplify 0x00000000 radius 4.050 factor 1.000 stages 4 rt_op -1 select
+node 4: Merge size 4 input 1 input2 3 operation 1 color 0x80000000 amplify 0x00404040 radius 0.000 factor 0.000 stages 0 rt_op -1 select
+node 5: Layer2D input -1 material 1323 flags 0x0 size 4 z 0.000 screen 0.000 0.900 1.000 1.000 uv 0.000 0.000 1.000 1.000
+node 6: Layer2D input -1 material 1323 flags 0x0 size 4 z 0.000 screen 0.000 0.000 1.000 0.100 uv 0.000 0.000 1.000 1.000

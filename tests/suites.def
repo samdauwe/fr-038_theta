@@ -1,0 +1,49 @@
+/* The test suites, in the order they are started.
+ *
+ *   SUITE(<name>, <function>, <time limit in seconds>, <SUITE_* flags or 0>, <arguments...>, NULL)
+ *
+ * The function is `int <function>(int argc, char **argv)` and finds its arguments in argv[1...]; ASSETS is the directory with the
+ * production data (assets/), FIXTURES the fixtures derived from it (tests/data/theta/), DATA the reference fixtures (tests/data/).
+ * The limits are generous: a sanitizer build multiplies them through THETA_TEST_TIMEOUT_SCALE. */
+
+/* the libraries */
+SUITE("linkage", suite_linkage, 60, 0, NULL)
+SUITE("audio_ogg", suite_audio_ogg, 300, 0, ASSETS, NULL)
+SUITE("wz3_theta_kx", suite_wz3_theta_kx, 300, 0, ASSETS, FIXTURES, NULL)
+SUITE("wz3_theta_ops", suite_wz3_theta_ops, 300, 0, ASSETS, NULL)
+SUITE("wz3_dxt5", suite_wz3_dxt5, 120, 0, DATA, NULL)
+SUITE("wz3_render_plan", suite_wz3_render_plan, 300, 0, DATA, NULL)
+SUITE("wz3_draw_list", suite_wz3_draw_list, 300, 0, DATA, NULL)
+SUITE("wz3_shadow", suite_wz3_shadow, 300, 0, DATA, NULL)
+SUITE("glr_trace", suite_glr_trace, 120, 0, DATA, NULL)
+SUITE("glr_egl", suite_glr_egl, 120, SUITE_SOFTWARE_GL, NULL)
+
+/* the player's SDL-free core */
+SUITE("player_scene", suite_player_scene, 900, 0, ASSETS "/theta.kx", NULL)
+SUITE("player_scene_egl", suite_player_scene_egl, 1800, SUITE_SOFTWARE_GL, ASSETS "/theta.kx", NULL)
+SUITE("player_replay", suite_player_replay, 300, 0, ASSETS "/theta.kx", NULL)
+SUITE("player_text", suite_player_text, 60, 0, NULL)
+SUITE("player_credits", suite_player_credits, 60, 0, NULL)
+SUITE("player_glcheck", suite_player_glcheck, 60, 0, NULL)
+SUITE("player_args", suite_player_args, 60, 0, NULL)
+
+/* the player executable, started headless (SDL offscreen video, dummy audio); they skip without an OpenGL ES context */
+SUITE("player_licenses", suite_player_cli, 60, 0, "licenses", NULL)
+SUITE("player_bad_args", suite_player_cli, 60, 0, "bad_args", NULL)
+SUITE("player_missing_kx", suite_player_cli, 60, 0, "missing_kx", NULL)
+SUITE("player_missing_ogg", suite_player_cli, 60, 0, "missing_ogg", NULL)
+SUITE("player_bad_ogg", suite_player_cli, 300, SUITE_SERIAL, "bad_ogg", NULL)
+SUITE("player_picture", suite_player_cli, 300, 0, "picture", NULL)
+SUITE("player_seek_replay", suite_player_cli, 300, 0, "seek_replay", NULL)
+SUITE("player_overlay", suite_player_cli, 300, 0, "overlay", NULL)
+SUITE("player_gl_check", suite_player_cli, 300, 0, "gl_check", NULL)
+SUITE("player_soak_short", suite_player_cli, 600, 0, "soak_short", NULL)
+SUITE("player_cancel_loading", suite_player_cli, 300, SUITE_SERIAL, "cancel_loading", NULL)
+SUITE("player_cancel_loading_single", suite_player_cli, 300, SUITE_SERIAL, "cancel_loading_single", NULL)
+SUITE("player_live_session", suite_player_cli, 300, SUITE_SERIAL, "live_session", NULL)
+SUITE("player_live_no_audio", suite_player_cli, 300, SUITE_SERIAL, "live_no_audio", NULL)
+SUITE("player_live_single_thread", suite_player_cli, 300, SUITE_SERIAL, "live_single_thread", NULL)
+SUITE("player_window", suite_player_cli, 300, SUITE_SERIAL, "window", NULL)
+#ifdef THETA_TEST_SOAK
+SUITE("player_soak_long", suite_player_cli, 1500, SUITE_SERIAL, "soak_long", NULL)
+#endif

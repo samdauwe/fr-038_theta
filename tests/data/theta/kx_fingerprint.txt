@@ -1,0 +1,23 @@
+flags 8
+name 
+song_size 0
+sample_size 0
+song_bpm_fixed 9043968
+song_length 39911424
+n_classes 67
+n_ops 1329
+n_events 89
+n_splines 61
+size 892653
+section_header 0
+section_song 8
+section_samples 0
+section_document 8
+section_graph 972
+section_parameters 3804
+section_animations 30115
+section_events 34369
+section_splines 36957
+section_blobs 39360
+section_end 892653
+fingerprint 2671245419
