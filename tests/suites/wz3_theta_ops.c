@@ -521,6 +521,94 @@ static void test_dots(void)
   wz3_bitmap_destroy(black);
 }
 
+/* ---- the cached glyph coverage of a Text operator at other texture sizes ------------------------------------------ */
+
+static int g_fallback_calls;
+static int text_fallback(void *user, const wz3_text_request *req, wz3_text_result *out)
+{
+  (void)user;
+  (void)req;
+  (void)out;
+  g_fallback_calls++;
+  return 0;
+}
+
+/* A lower texture quality makes the bitmap smaller than the sheet the document's glyphs were cached for. The operator must keep using the cache
+   (box-filtered to the bitmap) and the letter metrics must not move: rasterizing the substitute font instead gave a sheet that did not match the
+   metrics, which Print reads from the cache (garbled credits and an oversized title in the browser, whose default quality is Normal). */
+static void test_text_cache_sizes(void)
+{
+  enum { SHEET = 16 };
+  uint8_t blob[8 + 256 * 10 + SHEET * SHEET];
+  memset(blob, 0, sizeof blob);
+  blob[0] = 3;
+  blob[1] = 1; /* a font page: the metrics follow */
+  blob[2] = SHEET;
+  blob[4] = SHEET;
+  blob[6] = 4;
+  for (int i = 0; i < 256; i++) { /* letter i: x, y, before, width, after */
+    uint8_t *m = blob + 8 + i * 10;
+    m[0] = (uint8_t)((i % 8) * 8);
+    m[2] = (uint8_t)((i / 8 % 4) * 4);
+    m[4] = 1;
+    m[6] = 6;
+    m[8] = 2;
+  }
+  uint8_t *cov = blob + 8 + 256 * 10;
+  for (int y = 0; y < SHEET; y++)
+    for (int x = 0; x < SHEET; x++) cov[y * SHEET + x] = ((x / 2 + y / 2) & 1) ? 7 : 0; /* 2x2 checker squares */
+
+  wz3_bitmap_ctx ctx;
+  wz3_bitmap_ctx_init(&ctx);
+  ctx.text = text_fallback;
+  static const int sizes[] = { SHEET, 8, 4, 32, 2 };
+  wz3_letter ref[256];
+  for (size_t k = 0; k < sizeof sizes / sizeof sizes[0]; k++) {
+    const int n = sizes[k];
+    wz3_bitmap *in = wz3_bitmap_create(n, n);
+    CHECK(in != NULL, "bitmap %d", n);
+    if (!in) continue;
+    memset(in->data, 0, (size_t)n * n * 4 * sizeof(uint16_t));
+    wz3_letter letters[256];
+    g_fallback_calls = 0;
+    wz3_bitmap *out = wz3_bitmap_text(&ctx, blob, sizeof blob, in, 0.f, 0.f, 0.5f, 0.f, 0xffffffffu, 0x80 | 0x10, 0.f, 0.f, 1.f, "abc", "font", letters);
+    CHECK(out != NULL && g_fallback_calls == 0, "%dx%d sheet bitmap uses the cached coverage (fallback calls %d)", n, n, g_fallback_calls);
+    if (out) {
+      uint32_t white = 0, black = 0, grey = 0;
+      for (int i = 0; i < n * n; i++) {
+        const uint16_t v = out->data[i * 4];
+        white += v >= 0x7ff0;
+        black += v == 0;
+        grey += v != 0 && v < 0x7ff0;
+      }
+      if (n == SHEET || n == 8 || n == 32) { /* whole 2x2 squares map to whole pixels: only pure values, half of each */
+        CHECK(grey == 0 && white == (uint32_t)n * n / 2 && black == (uint32_t)n * n / 2, "%dx%d: %u white %u black %u grey of %d", n, n, white, black, grey,
+              n * n);
+      } else if (n == 4) { /* a pixel covers 4x4 source pixels: two white squares and two black ones */
+        for (int i = 0; i < n * n; i++) {
+          const int v = out->data[i * 4];
+          CHECK(v > 0x3b00 && v < 0x4400, "4x4 pixel %d is half covered (0x%x)", i, v);
+        }
+      } else { /* 2x2: a pixel covers 8x8 source pixels, half white */
+        for (int i = 0; i < n * n; i++) {
+          const int v = out->data[i * 4];
+          CHECK(v > 0x3b00 && v < 0x4400, "2x2 pixel %d is half covered (0x%x)", i, v);
+        }
+      }
+      if (k == 0)
+        memcpy(ref, letters, sizeof ref);
+      else
+        CHECK(!memcmp(ref, letters, sizeof ref), "%dx%d: the letter metrics equal those of the sheet size", n, n);
+    }
+    wz3_bitmap_destroy(out);
+    wz3_bitmap_destroy(in);
+  }
+  /* the metrics are fractions of the 4x aliased sheet: letter 1 is at x = 8 of 64, y = 0, 6 + 1 + 2 wide */
+  CHECK(fabs(ref[1].u0 - 8.0 / 64.0) < 1e-12 && fabs(ref[1].v0) < 1e-12 && fabs(ref[1].width - 9.0 / 64.0) < 1e-12 &&
+          fabs(ref[1].pre_space - 1.0 / 64.0) < 1e-12,
+        "letter 1 metrics: u0 %g v0 %g width %g pre %g", ref[1].u0, ref[1].v0, ref[1].width, ref[1].pre_space);
+}
+
 /* ---- the packing contract ----------------------------------------------------------------------------------------- */
 
 typedef struct contract {
@@ -596,6 +684,7 @@ int suite_wz3_theta_ops(int argc, char **argv)
   test_displace();
   test_uv_round();
   test_dots();
+  test_text_cache_sizes();
   if (argc > 1) {
     size_t size;
     uint8_t *bytes = read_all(argv[1], "theta.kx", &size);

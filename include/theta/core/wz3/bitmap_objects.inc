@@ -2290,14 +2290,17 @@ WZ3_API wz3_bitmap *wz3_bitmap_text(const wz3_bitmap_ctx *ctx, const uint8_t *bl
   uint8_t *coverage = NULL;
   int have_metrics = 0;
   int32_t line_height = 0;
+  /* the size the cached glyph coverage was made for; the metrics are fractions of it (the 4x aliased sheet), so they hold at any bitmap size */
+  uint32_t sheet_width = (uint32_t)in->width, sheet_height = (uint32_t)in->height;
   int32_t mx[256], my[256], mb[256], mw[256], ma[256];
   uint16_t col[4];
   wz3_packed_color(color, col);
   if (letters) memset(letters, 0, 256 * sizeof(wz3_letter));
 
-  if ((flags & 0x80) && blob && blob_size >= 8 && blob[0] == 3 && blob[1] == (page ? 1 : 0) && wz3__u16le(blob + 2) == (uint32_t)in->width &&
-      wz3__u16le(blob + 4) == (uint32_t)in->height) {
-    /* cached glyph coverage from the document (5 bits per pixel) */
+  if ((flags & 0x80) && blob && blob_size >= 8 && blob[0] == 3 && blob[1] == (page ? 1 : 0) && wz3__u16le(blob + 2) >= 1 && wz3__u16le(blob + 4) >= 1) {
+    /* cached glyph coverage from the document (3 bits per pixel), made for a sheet of sheet_width x sheet_height */
+    sheet_width = wz3__u16le(blob + 2);
+    sheet_height = wz3__u16le(blob + 4);
     line_height = (int32_t)wz3__u16le(blob + 6);
     size_t offset = 8;
     if (page) {
@@ -2314,9 +2317,35 @@ WZ3_API wz3_bitmap *wz3_bitmap_text(const wz3_bitmap_ctx *ctx, const uint8_t *bl
     coverage = (uint8_t *)WZ3_MALLOC(pixels);
     if (!coverage) return NULL;
     memset(coverage, 0, pixels);
-    for (size_t i = 0; i < pixels && offset + i < blob_size; i++) {
-      uint32_t five = blob[offset + i];
-      coverage[i] = (uint8_t)((five << 5) | (five << 2) | (five >> 1));
+    if (sheet_width == (uint32_t)in->width && sheet_height == (uint32_t)in->height) {
+      for (size_t i = 0; i < pixels && offset + i < blob_size; i++) {
+        uint32_t five = blob[offset + i];
+        coverage[i] = (uint8_t)((five << 5) | (five << 2) | (five >> 1));
+      }
+    } else {
+      /* A lower texture quality makes the bitmap smaller than the sheet the glyphs were cached for. The letter metrics stay valid (they are
+         fractions of the sheet), so the cached coverage is box-filtered down to the bitmap: rasterizing the substitute font instead would give a
+         sheet that does not match the metrics (garbled credits, a title of the wrong size). A bitmap larger than the sheet repeats pixels. */
+      for (int32_t py = 0; py < in->height; py++) {
+        const uint32_t y0 = (uint32_t)((uint64_t)py * sheet_height / (uint32_t)in->height);
+        uint32_t y1 = (uint32_t)(((uint64_t)(py + 1) * sheet_height + (uint32_t)in->height - 1) / (uint32_t)in->height);
+        if (y1 <= y0) y1 = y0 + 1;
+        if (y1 > sheet_height) y1 = sheet_height;
+        for (int32_t px = 0; px < in->width; px++) {
+          const uint32_t x0 = (uint32_t)((uint64_t)px * sheet_width / (uint32_t)in->width);
+          uint32_t x1 = (uint32_t)(((uint64_t)(px + 1) * sheet_width + (uint32_t)in->width - 1) / (uint32_t)in->width);
+          if (x1 <= x0) x1 = x0 + 1;
+          if (x1 > sheet_width) x1 = sheet_width;
+          uint32_t sum = 0, count = 0;
+          for (uint32_t sy = y0; sy < y1; sy++)
+            for (uint32_t sx = x0; sx < x1; sx++, count++) {
+              const size_t at = offset + (size_t)sy * sheet_width + sx;
+              const uint32_t five = at < blob_size ? blob[at] : 0u;
+              sum += (five << 5) | (five << 2) | (five >> 1);
+            }
+          coverage[(size_t)py * (size_t)in->width + (size_t)px] = (uint8_t)((sum + count / 2) / count);
+        }
+      }
     }
   } else {
     if (!ctx || !ctx->text) return NULL;
@@ -2354,7 +2383,7 @@ WZ3_API wz3_bitmap *wz3_bitmap_text(const wz3_bitmap_ctx *ctx, const uint8_t *bl
   WZ3_FREE(coverage);
 
   if (page && letters && have_metrics) {
-    const double alias_width = (double)in->width * 4.0, alias_height = (double)in->height * 4.0;
+    const double alias_width = (double)sheet_width * 4.0, alias_height = (double)sheet_height * 4.0;
     const double inside = (double)internal_space * alias_width;
     for (int i = 0; i < 256; i++) {
       letters[i].u0 = mx[i] / alias_width;

@@ -37,7 +37,7 @@ the header without it in another, which is what a user of the single-header libr
 | `linkage` | the single-header layout links across translation units |
 | `audio_ogg` | `ogg.h`: decoding in blocks of any size, sample-accurate seeking, damaged streams, the audio hand-over of the player |
 | `wz3_theta_kx` | the 2004 document layout and the shipped document: structure fingerprint, truncation and bit flips |
-| `wz3_theta_ops` | the mesh editing operators the document uses: topology, counts, positions, determinism, the parameter packing |
+| `wz3_theta_ops` | the mesh editing operators the document uses: topology, counts, positions, determinism, the parameter packing; the Text operator's cached glyph coverage at the sheet size and at lower and higher texture qualities (no fallback to the substitute font, the same letter metrics) |
 | `wz3_dxt5` | the BC3 codec against the vectors of the JavaScript implementation |
 | `wz3_render_plan`, `wz3_draw_list`, `wz3_shadow` | render planning, draw lists and shadow volumes against the hashes of the JavaScript implementation, plus allocation failures |
 | `glr_trace` | `glr.h` against a recording GL: the call stream of the reference renderer, the shader texts, every failure path |
